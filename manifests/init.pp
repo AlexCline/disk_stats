@@ -11,7 +11,7 @@ class disk_stats {
   if ! defined ( Package['rubygems'] )   { package { 'rubygems':   ensure => installed, } }
 
   case $::operatingsystem {
-    'CentOS', 'RedHat': {
+    'CentOS', 'RedHat', 'SLES': {
       if ! defined ( Package['ruby-devel'] ) { package { 'ruby-devel': ensure => installed, } }
       if ! defined ( Package['make'] )       { package { 'make':       ensure => installed, } }
       if ! defined ( Package['gcc-c++'] )    { package { 'gcc-c++':    ensure => installed, } }
@@ -23,8 +23,8 @@ class disk_stats {
   }
 
   $env_path = $::operatingsystem ? {
-    /^(CentOS|RedHat)$/ => '/bin/env',
-    /^(Ubuntu|Debian)$/ => '/usr/bin/env',
+    /^(CentOS|RedHat)$/      => '/bin/env',
+    /^(Ubuntu|Debian|SLES)$/ => '/usr/bin/env',
   }
 
   exec { 'Install sys-filesystem rubygem dependency':
